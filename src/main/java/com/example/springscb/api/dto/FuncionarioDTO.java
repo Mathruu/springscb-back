@@ -22,7 +22,6 @@ public class FuncionarioDTO {
     private String cidade;
     private String estado;
     private String email;
-    private Integer telefone;
     private Integer salario;
     private Integer vendas;
 

@@ -31,7 +31,6 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario) {
-        validar(usuario);
         return repository.save(usuario);
     }
 
@@ -39,11 +38,5 @@ public class UsuarioService {
     public void excluir(Usuario usuario) {
         Objects.requireNonNull(usuario.getId());
         repository.delete(usuario);
-    }
-
-    public void validar(Usuario usuario) {
-        if (usuario.getNome() == null || usuario.getNome().equals("")) {
-            throw new RegraNegocioException("Nome inválido");
-        }
     }
 }

@@ -24,5 +24,4 @@ public abstract class Usuario {
     @ManyToOne
     private Endereco endereco;
     private String email;
-    private Integer telefone;
 }

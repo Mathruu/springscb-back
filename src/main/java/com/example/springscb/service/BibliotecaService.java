@@ -30,7 +30,6 @@ public class BibliotecaService {
 
     @Transactional
     public Biblioteca salvar(Biblioteca biblioteca) {
-        validar(biblioteca);
         return repository.save(biblioteca);
     }
 
@@ -38,11 +37,5 @@ public class BibliotecaService {
     public void excluir(Biblioteca biblioteca) {
         Objects.requireNonNull(biblioteca.getId());
         repository.delete(biblioteca);
-    }
-
-    public void validar(Biblioteca biblioteca) {
-        if (biblioteca.getEndereco() == null || biblioteca.getEndereco().equals("")) {
-            throw new RegraNegocioException("Nome inválido");
-        }
     }
 }

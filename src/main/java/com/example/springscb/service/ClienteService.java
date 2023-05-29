@@ -31,7 +31,6 @@ public class ClienteService {
 
     @Transactional
     public Cliente salvar(Cliente cliente) {
-        validar(cliente);
         return repository.save(cliente);
     }
 
@@ -40,13 +39,4 @@ public class ClienteService {
         Objects.requireNonNull(cliente.getId());
         repository.delete(cliente);
     }
-
-    public void validar(Cliente cliente) {
-        if (cliente.getNome() == null || cliente.getNome().trim().equals("")) {
-            throw new RegraNegocioException("Nome inválido");
-        }
-        if (cliente.getLivro() == null || cliente.getLivro().getId() == null) {
-            throw new RegraNegocioException("Livro inválido");
-        }
     }
-}

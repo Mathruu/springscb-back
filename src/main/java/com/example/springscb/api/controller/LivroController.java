@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,7 +57,7 @@ public class LivroController {
     }
 
     @PostMapping()
-    public ResponseEntity post(LivroDTO dto) {
+    public ResponseEntity post(@RequestBody LivroDTO dto) {
         try {
             Livro livro = converter(dto);
             livro = service.salvar(livro);
@@ -67,7 +68,7 @@ public class LivroController {
     }
 
     @PutMapping({"{id}"})
-    public ResponseEntity atualizar(@PathVariable("id") Long id, LivroDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody LivroDTO dto) {
         if(!service.getLivroById(id).isPresent()) {
             return new ResponseEntity("Livro não encontrado", HttpStatus.NOT_FOUND);
         }

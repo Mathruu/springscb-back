@@ -31,7 +31,6 @@ public class LivroService {
     
         @Transactional
         public Livro salvar(Livro livro) {
-            validar(livro);
             return repository.save(livro);
         }
     
@@ -39,11 +38,5 @@ public class LivroService {
         public void excluir(Livro livro) {
             Objects.requireNonNull(livro.getId());
             repository.delete(livro);
-        }
-    
-        public void validar(Livro livro) {
-            if (livro.getTitulo() == null || livro.getTitulo().equals("")) {
-                throw new RegraNegocioException("Nome inválido");
-            }
         }
 }

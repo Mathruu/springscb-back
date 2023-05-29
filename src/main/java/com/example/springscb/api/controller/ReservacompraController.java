@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,7 +51,7 @@ public class ReservacompraController {
     }
 
     @PostMapping()
-    public ResponseEntity post(ReservacompraDTO dto) {
+    public ResponseEntity post(@RequestBody ReservacompraDTO dto) {
         try {
             Reservacompra reservacompra = converter(dto);
             reservacompra = service.salvar(reservacompra);
@@ -61,7 +62,7 @@ public class ReservacompraController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, ReservacompraDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ReservacompraDTO dto) {
         if (!service.getReservacompraById(id).isPresent()) {
             return new ResponseEntity("A Reserva_compra não foi encontrada.", HttpStatus.NOT_FOUND);
         }

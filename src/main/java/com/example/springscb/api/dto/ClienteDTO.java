@@ -21,8 +21,6 @@ public class ClienteDTO {
     private String cidade;
     private String estado;
     private String email;
-    private Integer telefone;
-    private long idLivro;
 
     public static ClienteDTO create(Cliente cliente) {
         ModelMapper modelMapper = new ModelMapper();
@@ -33,7 +31,6 @@ public class ClienteDTO {
         dto.bairro = cliente.getEndereco().getBairro();
         dto.cidade = cliente.getEndereco().getCidade();
         dto.estado = cliente.getEndereco().getEstado();
-        dto.idLivro = cliente.getLivro().getId();
         return dto;
     } 
 }

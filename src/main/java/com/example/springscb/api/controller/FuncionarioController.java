@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,7 +54,7 @@ public class FuncionarioController {
     }
 
     @PostMapping()
-    public ResponseEntity post(FuncionarioDTO dto) {
+    public ResponseEntity post(@RequestBody FuncionarioDTO dto) {
         try {
             Funcionario funcionario = converter(dto);
             Endereco endereco = enderecoService.salvar(funcionario.getEndereco());;
@@ -66,7 +67,7 @@ public class FuncionarioController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, FuncionarioDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id,@RequestBody FuncionarioDTO dto) {
         if(!service.getFuncionarioById(id).isPresent()) {
             return new ResponseEntity("Funcionario não encontrado", HttpStatus.NOT_FOUND);
         }
