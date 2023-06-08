@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/clientes")
 @RequiredArgsConstructor
+@CrossOrigin
 public class ClienteController {
     
     private final ClienteService service;
@@ -56,7 +58,7 @@ public class ClienteController {
     public ResponseEntity post(@RequestBody ClienteDTO dto) {
         try {
             Cliente cliente = converter(dto);
-            Endereco endereco = enderecoService.salvar(cliente.getEndereco());;
+            Endereco endereco = enderecoService.salvar(cliente.getEndereco());
             cliente.setEndereco(endereco);
             cliente = service.salvar(cliente);
             return new ResponseEntity(cliente, HttpStatus.CREATED);
