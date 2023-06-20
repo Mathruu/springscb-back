@@ -1,5 +1,7 @@
 package com.example.springscb.api.dto;
 import com.example.springscb.model.entity.Cliente;
+import com.example.springscb.model.entity.Livro;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,7 @@ public class ClienteDTO {
     
     private long id;
     private String nome;
-    private Integer cpf;
+    private Long cpf;
     private Integer cep;
     private String rua;
     private Integer numero;
@@ -21,6 +23,7 @@ public class ClienteDTO {
     private String cidade;
     private String estado;
     private String email;
+    private Livro livro;
 
     public static ClienteDTO create(Cliente cliente) {
         ModelMapper modelMapper = new ModelMapper();

@@ -14,7 +14,7 @@ public class FuncionarioDTO {
     
     private long id;
     private String nome;
-    private Integer cpf;
+    private Long cpf;
     private Integer cep;
     private String rua;
     private Integer numero;
