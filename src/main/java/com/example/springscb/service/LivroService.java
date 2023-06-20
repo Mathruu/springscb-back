@@ -31,6 +31,7 @@ public class LivroService {
     
         @Transactional
         public Livro salvar(Livro livro) {
+            validar(livro);
             return repository.save(livro);
         }
     
@@ -38,5 +39,17 @@ public class LivroService {
         public void excluir(Livro livro) {
             Objects.requireNonNull(livro.getId());
             repository.delete(livro);
+        }
+
+        public void validar(Livro livro) {
+            if (livro.getTitulo() == null || livro.getTitulo().trim().equals("")) {
+                throw new RegraNegocioException("Título inválido");
+            }
+            if (livro.getAutor() == null || livro.getAutor().trim().equals("")) {
+                throw new RegraNegocioException("Autor inválido");
+            }
+            if (livro.getEditora() == null || livro.getEditora().trim().equals("")) {
+                throw new RegraNegocioException("Editora inválida");
+            }
         }
 }

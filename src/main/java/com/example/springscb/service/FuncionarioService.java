@@ -30,6 +30,7 @@ public class FuncionarioService {
 
     @Transactional
     public Funcionario salvar(Funcionario funcionario) {
+        validar(funcionario);
         return repository.save(funcionario);
     }
 
@@ -37,5 +38,23 @@ public class FuncionarioService {
     public void excluir(Funcionario funcionario) {
         Objects.requireNonNull(funcionario.getId());
         repository.delete(funcionario);
+    }
+
+    public void validar(Funcionario funcionario) {
+        if (funcionario.getNome() == null || funcionario.getNome().trim().equals("")) {
+            throw new RegraNegocioException("Nome inválido");
+        }
+        if (funcionario.getCpf() == null){
+            throw new RegraNegocioException("CPF inválido");
+        }
+        if (funcionario.getEmail() == null || funcionario.getEmail().trim().equals("")) {
+            throw new RegraNegocioException("Email inválido");
+        }
+        if (funcionario.getSalario() == null){
+            throw new RegraNegocioException("Salário inválido");
+        }
+        if (funcionario.getVendas() == null){
+            throw new RegraNegocioException("Vendas inválidas");
+        }
     }
 }

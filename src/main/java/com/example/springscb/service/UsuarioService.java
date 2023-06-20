@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.springscb.exception.RegraNegocioException;
 import com.example.springscb.model.entity.Usuario;
 import com.example.springscb.model.repository.UsuarioRepository;
 
