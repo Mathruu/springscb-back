@@ -19,13 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springscb.api.dto.LivroDTO;
 import com.example.springscb.exception.RegraNegocioException;
-import com.example.springscb.model.entity.Endereco;
 import com.example.springscb.model.entity.Livro;
-import com.example.springscb.service.BibliotecaService;
-import com.example.springscb.service.EnderecoService;
 import com.example.springscb.service.LivroService;
-import com.example.springscb.service.ReservacompraService;
-import com.example.springscb.service.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,10 +32,6 @@ import lombok.RequiredArgsConstructor;
 public class LivroController {
 
     private final LivroService service;
-    private final EnderecoService enderecoService;
-    private final ReservacompraService reservacompraService;
-    private final UsuarioService usuarioService;
-    private final BibliotecaService bibliotecaService;
 
 
     @GetMapping

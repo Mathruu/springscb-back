@@ -15,16 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springscb.api.dto.ClienteDTO;
 import com.example.springscb.exception.RegraNegocioException;
 import com.example.springscb.model.entity.Cliente;
-import com.example.springscb.model.entity.Endereco;
+import com.example.springscb.model.entity.Livro;
 import com.example.springscb.service.ClienteService;
-import com.example.springscb.service.EnderecoService;
 import com.example.springscb.service.LivroService;
-import com.example.springscb.service.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,9 +34,8 @@ import lombok.RequiredArgsConstructor;
 public class ClienteController {
     
     private final ClienteService service;
-    private final EnderecoService enderecoService;
+
     private final LivroService livroService;
-    private final UsuarioService usuarioService;
 
     @GetMapping
     public ResponseEntity get() {
@@ -58,9 +56,7 @@ public class ClienteController {
     public ResponseEntity post(@RequestBody ClienteDTO dto) {
         try {
             Cliente cliente = converter(dto);
-            Endereco endereco = enderecoService.salvar(cliente.getEndereco());
-            cliente.setEndereco(endereco);
-            cliente = service.salvar(cliente);
+            cliente = service.salvarClienteComTituloLivro(cliente, dto.getTituloLivro());
             return new ResponseEntity(cliente, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -75,8 +71,8 @@ public class ClienteController {
         try{
             Cliente cliente = converter(dto);
             cliente.setId(id);
-            Endereco endereco = enderecoService.salvar(cliente.getEndereco());
-            cliente.setEndereco(endereco);
+            Livro livro = livroService.salvar(cliente.getLivro());
+            cliente.setLivro(livro);
             service.salvar(cliente);
             return ResponseEntity.ok(cliente);
         } catch (RegraNegocioException e) {
@@ -101,8 +97,9 @@ public class ClienteController {
     public Cliente converter(ClienteDTO dto){
         ModelMapper modelMapper = new ModelMapper();
         Cliente cliente = modelMapper.map(dto, Cliente.class);
-        Endereco endereco = modelMapper.map(dto, Endereco.class);
-        cliente.setEndereco(endereco);
+        Livro livro = modelMapper.map(dto, Livro.class);
+        livro.setTitulo(dto.getTituloLivro());
+        cliente.setLivro(livro);
         return cliente;
     }
 

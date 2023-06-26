@@ -22,8 +22,6 @@ public class Biblioteca {
     private Long id;
 
     private String nome;
-    @ManyToOne
-    private Endereco endereco;
     private Integer telefone;
     @ManyToOne
 

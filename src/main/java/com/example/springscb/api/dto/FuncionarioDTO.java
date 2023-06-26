@@ -15,12 +15,7 @@ public class FuncionarioDTO {
     private long id;
     private String nome;
     private Long cpf;
-    private Integer cep;
-    private String rua;
-    private Integer numero;
-    private String bairro;
-    private String cidade;
-    private String estado;
+    private int enderecoCep;
     private String email;
     private Integer salario;
     private Integer vendas;
@@ -28,12 +23,6 @@ public class FuncionarioDTO {
     public static FuncionarioDTO create(Funcionario funcionario) {
         ModelMapper modelMapper = new ModelMapper();
         FuncionarioDTO dto = modelMapper.map(funcionario, FuncionarioDTO.class);
-        dto.cep = funcionario.getEndereco().getCep();
-        dto.rua = funcionario.getEndereco().getRua();
-        dto.numero = funcionario.getEndereco().getNumero();
-        dto.bairro = funcionario.getEndereco().getBairro();
-        dto.cidade = funcionario.getEndereco().getCidade();
-        dto.estado = funcionario.getEndereco().getEstado();
         return dto;
     }
 }

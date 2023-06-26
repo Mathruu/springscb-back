@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springscb.api.dto.FuncionarioDTO;
 import com.example.springscb.exception.RegraNegocioException;
-import com.example.springscb.model.entity.Endereco;
 import com.example.springscb.model.entity.Funcionario;
-import com.example.springscb.service.EnderecoService;
 import com.example.springscb.service.FuncionarioService;
 import com.example.springscb.service.LivroService;
 import com.example.springscb.service.UsuarioService;
@@ -38,7 +36,6 @@ public class FuncionarioController {
     private final FuncionarioService service;
     private final UsuarioService usuarioService;
     private final LivroService livroService;
-    private final EnderecoService enderecoService;
 
     @GetMapping()
     public ResponseEntity get() {
@@ -59,8 +56,6 @@ public class FuncionarioController {
     public ResponseEntity post(@RequestBody FuncionarioDTO dto) {
         try {
             Funcionario funcionario = converter(dto);
-            Endereco endereco = enderecoService.salvar(funcionario.getEndereco());;
-            funcionario.setEndereco(endereco);
             funcionario = service.salvar(funcionario);
             return new ResponseEntity(funcionario, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
@@ -76,8 +71,6 @@ public class FuncionarioController {
         try {
             Funcionario funcionario = converter(dto);
             funcionario.setId(id);
-            Endereco endereco = enderecoService.salvar(funcionario.getEndereco());
-            funcionario.setEndereco(endereco);
             service.salvar(funcionario);
             return ResponseEntity.ok(funcionario);
         }catch (RegraNegocioException e) {
@@ -102,8 +95,6 @@ public class FuncionarioController {
     public Funcionario converter(FuncionarioDTO dto){
         ModelMapper modelMapper = new ModelMapper();
         Funcionario funcionario = modelMapper.map(dto, Funcionario.class);
-        Endereco endereco = modelMapper.map(dto, Endereco.class);
-        funcionario.setEndereco(endereco);
         return funcionario;
     }
 }
