@@ -66,9 +66,13 @@ public class ClienteService {
         if (cliente.getEmail() == null || cliente.getEmail().trim().equals("")) {
             throw new RegraNegocioException("Email inválido");
         }
-        // if (cliente.getLivro() == null || cliente.getLivro().getId() == null || cliente.getLivro().getId() == 0) {
-        //     throw new RegraNegocioException("Livro inválido");
-        // }
+        if (String.valueOf(cliente.getEnderecoCep()).length() != 8) {
+            throw new RegraNegocioException("CEP inválido");
+        }
+
+        if (cliente.getLivro() == null || cliente.getLivro().getId() == null || cliente.getLivro().getId() == 0) {
+            throw new RegraNegocioException("Livro inválido");
+        }
 
     }
 }

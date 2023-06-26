@@ -15,7 +15,7 @@ public class ClienteDTO {
     private long id;
     private String nome;
     private Long cpf;
-    private int enderecoCep;
+    private long enderecoCep;
     private String email;
     private String tituloLivro;
 

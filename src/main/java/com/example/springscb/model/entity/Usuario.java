@@ -22,5 +22,5 @@ public abstract class Usuario {
     private String nome;
     private Long cpf;
     private String email;
-    private int enderecoCep;
+    private Long enderecoCep;
 }

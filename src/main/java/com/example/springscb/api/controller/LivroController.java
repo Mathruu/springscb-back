@@ -91,6 +91,7 @@ public class LivroController {
 
     public Livro converter(LivroDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
+        Livro livro = modelMapper.map(dto, Livro.class);
         return modelMapper.map(dto, Livro.class);
     }
 }

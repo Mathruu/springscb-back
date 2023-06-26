@@ -11,13 +11,18 @@ import com.example.springscb.model.entity.Biblioteca;
 @AllArgsConstructor
 
 public class BibliotecaDTO {
+
+    private long id;
     private String nome;
-    private Integer telefone;
+    private Long telefone;
+    private long enderecoCep;
+    private String tituloLivro;
 
 
     public static BibliotecaDTO create(Biblioteca Biblioteca){
         ModelMapper modelMapper = new ModelMapper();
         BibliotecaDTO dto = modelMapper.map(Biblioteca, BibliotecaDTO.class);
+        dto.tituloLivro = Biblioteca.getLivro().getTitulo();
         return dto;
     }
 }

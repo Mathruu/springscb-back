@@ -17,87 +17,87 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.springscb.api.dto.ClienteDTO;
+import com.example.springscb.api.dto.BibliotecaDTO;
 import com.example.springscb.exception.RegraNegocioException;
-import com.example.springscb.model.entity.Cliente;
+import com.example.springscb.model.entity.Biblioteca;
 import com.example.springscb.model.entity.Livro;
-import com.example.springscb.service.ClienteService;
+import com.example.springscb.service.BibliotecaService;
 import com.example.springscb.service.LivroService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/clientes")
+@RequestMapping("/api/v1/bibliotecas")
 @RequiredArgsConstructor
 @CrossOrigin
-public class ClienteController {
-    
-    private final ClienteService service;
 
+public class BibliotecaController {
+    
+    private final BibliotecaService service;
     private final LivroService livroService;
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity get() {
-        List<Cliente> clientes = service.getClientes();
-        return ResponseEntity.ok(clientes.stream().map(ClienteDTO::create).collect(Collectors.toList()));
+        List<Biblioteca> bibliotecas = service.getBibliotecas();
+        return ResponseEntity.ok(bibliotecas.stream().map(BibliotecaDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable("id")Long id) {
-        Optional<Cliente> cliente = service.getClienteById(id);
-        if(!cliente.isPresent()) {
-            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
+        Optional<Biblioteca> biblioteca = service.getBibliotecaById(id);
+        if(!biblioteca.isPresent()) {
+            return new ResponseEntity("Biblioteca não encontrada", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(cliente.map(ClienteDTO::create));
+        return ResponseEntity.ok(biblioteca.map(BibliotecaDTO::create));
     }
 
     @PostMapping()
-    public ResponseEntity post(@RequestBody ClienteDTO dto) {
+    public ResponseEntity post(@RequestBody BibliotecaDTO dto) {
         try {
-            Cliente cliente = converter(dto);
-            cliente = service.salvarClienteComTituloLivro(cliente, dto.getTituloLivro());
-            return new ResponseEntity(cliente, HttpStatus.CREATED);
+            Biblioteca biblioteca = converter(dto);
+            biblioteca = service.salvarBibliotecaComTituloLivro(biblioteca, dto.getTituloLivro());
+            return new ResponseEntity(biblioteca, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id,@RequestBody ClienteDTO dto) {
-        if(!service.getClienteById(id).isPresent()) {
-            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
+    @PutMapping("/{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody BibliotecaDTO dto) {
+        if(!service.getBibliotecaById(id).isPresent()) {
+            return new ResponseEntity("Biblioteca não encontrada", HttpStatus.NOT_FOUND);
         }
-        try{
-            Cliente cliente = converter(dto);
-            cliente.setId(id);
-            service.salvarClienteComTituloLivro(cliente, dto.getTituloLivro());
-            return ResponseEntity.ok(cliente);
+        try {
+            Biblioteca biblioteca = converter(dto);
+            biblioteca.setId(id);
+            service.salvar(biblioteca);
+            return ResponseEntity.ok(biblioteca);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
-        Optional<Cliente> cliente = service.getClienteById(id);
-        if(!cliente.isPresent()) {
-            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
+        Optional<Biblioteca> biblioteca = service.getBibliotecaById(id);
+        if(!biblioteca.isPresent()) {
+            return new ResponseEntity("Biblioteca não encontrada", HttpStatus.NOT_FOUND);
         }
         try {
-            service.excluir(cliente.get());
+            service.excluir(biblioteca.get());
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    public Cliente converter(ClienteDTO dto){
+    public Biblioteca converter(BibliotecaDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
-        Cliente cliente = modelMapper.map(dto, Cliente.class);
+        Biblioteca biblioteca = modelMapper.map(dto, Biblioteca.class);
         Livro livro = modelMapper.map(dto, Livro.class);
         livro.setTitulo(dto.getTituloLivro());
-        cliente.setLivro(livro);
-        return cliente;
+        biblioteca.setLivro(livro);
+        return biblioteca;
     }
 
 }
